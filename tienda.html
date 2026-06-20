@@ -1,1 +1,390 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grékos - Tienda Deportiva</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #0f0f0f;
+      color: #f0f0f0;
+    }
+
+    header {
+      background: #1a1a1a;
+      border-bottom: 2px solid #e63312;
+      padding: 18px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header h1 { font-size: 1.8rem; font-weight: 800; letter-spacing: 2px; }
+    header h1 span { color: #e63312; }
+    header p { font-size: 0.8rem; color: #888; margin-top: 2px; }
+
+    .nav-links { display: flex; gap: 20px; }
+    .nav-links a { color: #aaa; text-decoration: none; font-size: 0.9rem; }
+    .nav-links a:hover { color: #e63312; }
+
+    .hero {
+      background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+      border-bottom: 1px solid #222;
+      padding: 60px 32px;
+      text-align: center;
+    }
+
+    .hero h2 { font-size: 2.5rem; font-weight: 900; letter-spacing: 3px; margin-bottom: 12px; }
+    .hero h2 span { color: #e63312; }
+    .hero p { color: #888; font-size: 1rem; }
+
+    .search-bar {
+      padding: 20px 32px;
+      background: #151515;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .search-bar input {
+      width: 400px;
+      max-width: 100%;
+      padding: 10px 16px;
+      background: #222;
+      border: 1px solid #333;
+      border-radius: 6px;
+      color: #f0f0f0;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .search-bar input:focus { border-color: #e63312; }
+
+    .container { padding: 32px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+      cursor: pointer;
+    }
+
+    .card:hover { transform: translateY(-4px); border-color: #e63312; }
+
+    .card-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      background: #222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+
+    .card-img img { width: 100%; height: 200px; object-fit: cover; }
+
+    .card-body { padding: 16px; }
+
+    .card-nombre { font-weight: 700; font-size: 1rem; margin-bottom: 6px; }
+
+    .card-desc { font-size: 0.82rem; color: #888; margin-bottom: 12px; line-height: 1.5; }
+
+    .card-precio {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #e63312;
+      margin-bottom: 12px;
+    }
+
+    .disponibilidad { margin-top: 8px; }
+
+    .disponibilidad-titulo {
+      font-size: 0.72rem;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .tiendas { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    .tienda-badge {
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .tienda-ok { background: #1a3a1a; color: #4caf50; }
+    .tienda-low { background: #3a2a00; color: #ff9800; }
+    .tienda-zero { background: #2a1010; color: #e63312; text-decoration: line-through; opacity: 0.6; }
+
+    .loading, .empty {
+      text-align: center;
+      padding: 80px;
+      color: #555;
+      font-size: 1.1rem;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 12px;
+      max-width: 560px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-img { width: 100%; height: 280px; object-fit: cover; border-radius: 12px 12px 0 0; background: #222; display: flex; align-items: center; justify-content: center; font-size: 4rem; }
+    .modal-img img { width: 100%; height: 280px; object-fit: cover; border-radius: 12px 12px 0 0; }
+
+    .modal-body { padding: 24px; }
+    .modal-nombre { font-size: 1.4rem; font-weight: 800; margin-bottom: 8px; }
+    .modal-precio { font-size: 1.8rem; font-weight: 900; color: #e63312; margin-bottom: 12px; }
+    .modal-desc { color: #aaa; line-height: 1.6; margin-bottom: 20px; font-size: 0.92rem; }
+
+    .modal-stock-titulo { font-size: 0.8rem; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .modal-tiendas { display: flex; flex-direction: column; gap: 8px; }
+
+    .modal-tienda-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+      background: #222;
+      border-radius: 6px;
+    }
+
+    .modal-tienda-nombre { font-size: 0.9rem; font-weight: 600; }
+    .modal-tienda-stock { font-weight: 700; }
+    .stock-ok { color: #4caf50; }
+    .stock-low { color: #ff9800; }
+    .stock-zero { color: #555; }
+
+    .modal-close {
+      float: right;
+      background: transparent;
+      border: none;
+      color: #888;
+      font-size: 1.4rem;
+      cursor: pointer;
+      margin-top: -4px;
+    }
+
+    .modal-close:hover { color: #e63312; }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #444;
+      font-size: 0.8rem;
+      border-top: 1px solid #1a1a1a;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>GRÉ<span>KOS</span></h1>
+    <p>Artículos deportivos</p>
+  </div>
+  <nav class="nav-links">
+    <a href="#">Inicio</a>
+    <a href="#">Productos</a>
+    <a href="#">Tiendas</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h2>TU TIENDA <span>DEPORTIVA</span></h2>
+  <p>Suplementos, ropa y equipamiento para tu mejor rendimiento</p>
+</div>
+
+<div class="search-bar">
+  <input type="text" id="buscar" placeholder="Buscar producto..." oninput="filtrar()">
+</div>
+
+<div class="container">
+  <div class="grid" id="grid">
+    <div class="loading">Cargando productos...</div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal-overlay" onclick="cerrarModal(event)">
+  <div class="modal" id="modal">
+    <div id="modal-img-container"></div>
+    <div class="modal-body">
+      <button class="modal-close" onclick="cerrarModalBtn()">✕</button>
+      <div class="modal-nombre" id="modal-nombre"></div>
+      <div class="modal-precio" id="modal-precio"></div>
+      <div class="modal-desc" id="modal-desc"></div>
+      <div class="modal-stock-titulo">Disponibilidad por ciudad</div>
+      <div class="modal-tiendas" id="modal-tiendas"></div>
+    </div>
+  </div>
+</div>
+
+<footer>© 2025 Grékos · Artículos Deportivos · Ica · Chincha · Nasca · Arequipa</footer>
+
+<script>
+  const BASE_ID = 'appOLjwDk4hhdE7LW';
+  const TABLE = 'Stock';
+  const TOKEN = 'patdW4KoAcThSrskf.26be9af05981dd583b06f82133ea8d7b14a68c000d3345b607db6dee2d717523';
+  const TIENDAS = ['Ica', 'Chincha', 'Nasca', 'Arequipa'];
+
+  let productos = [];
+
+  function stockClass(n) {
+    if (n === 0) return 'tienda-zero';
+    if (n <= 2) return 'tienda-low';
+    return 'tienda-ok';
+  }
+
+  function stockClassModal(n) {
+    if (n === 0) return 'stock-zero';
+    if (n <= 2) return 'stock-low';
+    return 'stock-ok';
+  }
+
+  function stockLabel(n) {
+    if (n === 0) return 'Sin stock';
+    if (n <= 2) return `Últimas ${n}`;
+    return `${n} disponibles`;
+  }
+
+  function renderProducto(p) {
+    const f = p.fields;
+    const foto = f.Foto && f.Foto[0] ? f.Foto[0].url : null;
+    const precio = f.Precio ? `S/ ${f.Precio.toFixed(2)}` : 'Consultar';
+    const desc = f.Descripcion || '';
+
+    const tiendasHtml = TIENDAS.map(t => {
+      const n = f[t] || 0;
+      return `<span class="tienda-badge ${stockClass(n)}">${t}${n === 0 ? '' : ` (${n})`}</span>`;
+    }).join('');
+
+    return `
+      <div class="card" onclick="abrirModal('${p.id}')">
+        <div class="card-img">
+          ${foto ? `<img src="${foto}" alt="${f.Producto}">` : '🏋️'}
+        </div>
+        <div class="card-body">
+          <div class="card-nombre">${f.Producto || '-'}</div>
+          <div class="card-desc">${desc.substring(0, 80)}${desc.length > 80 ? '...' : ''}</div>
+          <div class="card-precio">${precio}</div>
+          <div class="disponibilidad">
+            <div class="disponibilidad-titulo">Disponible en</div>
+            <div class="tiendas">${tiendasHtml}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function filtrar() {
+    const q = document.getElementById('buscar').value.toLowerCase();
+    const filtrados = productos.filter(p =>
+      (p.fields.Producto || '').toLowerCase().includes(q)
+    );
+    renderGrid(filtrados);
+  }
+
+  function renderGrid(lista) {
+    if (!lista.length) {
+      document.getElementById('grid').innerHTML = '<div class="empty">No se encontraron productos.</div>';
+      return;
+    }
+    document.getElementById('grid').innerHTML = lista.map(renderProducto).join('');
+  }
+
+  function abrirModal(id) {
+    const p = productos.find(x => x.id === id);
+    if (!p) return;
+    const f = p.fields;
+    const foto = f.Foto && f.Foto[0] ? f.Foto[0].url : null;
+
+    document.getElementById('modal-img-container').innerHTML = foto
+      ? `<img src="${foto}" alt="${f.Producto}" style="width:100%;height:280px;object-fit:cover;border-radius:12px 12px 0 0">`
+      : `<div class="modal-img">🏋️</div>`;
+
+    document.getElementById('modal-nombre').textContent = f.Producto || '-';
+    document.getElementById('modal-precio').textContent = f.Precio ? `S/ ${f.Precio.toFixed(2)}` : 'Consultar precio';
+    document.getElementById('modal-desc').textContent = f.Descripcion || 'Sin descripción disponible.';
+
+    const tiendasHtml = TIENDAS.map(t => {
+      const n = f[t] || 0;
+      return `
+        <div class="modal-tienda-row">
+          <span class="modal-tienda-nombre">📍 ${t}</span>
+          <span class="modal-tienda-stock ${stockClassModal(n)}">${stockLabel(n)}</span>
+        </div>
+      `;
+    }).join('');
+
+    document.getElementById('modal-tiendas').innerHTML = tiendasHtml;
+    document.getElementById('modal-overlay').classList.add('active');
+  }
+
+  function cerrarModal(e) {
+    if (e.target === document.getElementById('modal-overlay')) {
+      document.getElementById('modal-overlay').classList.remove('active');
+    }
+  }
+
+  function cerrarModalBtn() {
+    document.getElementById('modal-overlay').classList.remove('active');
+  }
+
+  async function cargarDatos() {
+    try {
+      const url = `https://api.airtable.com/v0/${BASE_ID}/${encodeURIComponent(TABLE)}`;
+      const res = await fetch(url, { headers: { Authorization: `Bearer ${TOKEN}` } });
+      if (!res.ok) throw new Error('Error');
+      const data = await res.json();
+      productos = (data.records || []).filter(p => p.fields.Producto);
+      renderGrid(productos);
+    } catch (e) {
+      document.getElementById('grid').innerHTML = '<div class="empty">Error al cargar productos.</div>';
+    }
+  }
+
+  cargarDatos();
+</script>
+</body>
+</html>
