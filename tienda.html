@@ -345,7 +345,7 @@
 
     document.getElementById('modal-nombre').textContent = f.Producto || '-';
     document.getElementById('modal-precio').textContent = f.Precio ? `S/ ${f.Precio.toFixed(2)}` : 'Consultar precio';
-    document.getElementById('modal-desc').textContent = f.Descripcion || 'Sin descripción disponible.';
+    document.getElementById('modal-desc').textContent = f.Descripción || 'Sin descripción disponible.';
 
     const tiendasHtml = TIENDAS.map(t => {
       const n = f[t] || 0;
