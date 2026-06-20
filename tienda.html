@@ -292,7 +292,7 @@
     const f = p.fields;
     const foto = f.Foto && f.Foto[0] ? f.Foto[0].url : null;
     const precio = f.Precio ? `S/ ${f.Precio.toFixed(2)}` : 'Consultar';
-    const desc = f.Descripcion || '';
+    const desc = f.descripción || '';
 
     const tiendasHtml = TIENDAS.map(t => {
       const n = f[t] || 0;
