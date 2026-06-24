@@ -483,15 +483,23 @@
       const precio    = f['Precio'] ? `S/ ${parseFloat(f['Precio']).toFixed(2)}` : 'Consultar';
       const desc      = f['Descripción'] || f['Descripcion'] || '';
       const categoria = f['Categoría'] || f['Categoria'] || '';
-      const foto      = f['Foto'] && f['Foto'][0] ? f['Foto'][0].url : null;
+      const fotos     = f['Foto'] ? f['Foto'].map(img => img.url) : [];
+const foto      = fotos[0] || null;
       const ica       = parseInt(f['Ica'] || 0);
       const chincha   = parseInt(f['Chincha'] || 0);
       const nasca     = parseInt(f['Nasca'] || 0);
       const arequipa  = parseInt(f['Arequipa'] || 0);
 
-      const imgHTML = foto
-        ? `<div class="producto-img"><img src="${foto}" alt="${nombre}" loading="lazy"></div>`
-        : `<div class="producto-img">🏋️</div>`;
+const imgHTML = fotos.length > 1
+  ? `<div class="producto-img carrusel" id="car-${p.id}">
+      <img src="${fotos[0]}" alt="${nombre}" loading="lazy">
+      <button onclick="prevSlide('${p.id}')" style="position:absolute;left:6px;top:50%;transform:translateY(-50%);background:#e63312;color:white;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:1rem;">&#8249;</button>
+      <button onclick="nextSlide('${p.id}')" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);background:#e63312;color:white;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:1rem;">&#8250;</button>
+    </div>`
+  : foto
+  ? `<div class="producto-img"><img src="${foto}" alt="${nombre}" loading="lazy"></div>`
+  : `<div class="producto-img">🏋️</div>`;
+const fotosData = JSON.stringify(fotos);
 
       return `
         <div class="producto-card" data-categoria="${categoria}">
@@ -557,6 +565,21 @@
   }
 
   cargarProductos();
+  const slidesMap = {};
+function nextSlide(id) {
+  const car = document.getElementById('car-' + id);
+  if (!car) return;
+  const imgs = car.querySelectorAll('img');
+  slidesMap[id] = ((slidesMap[id] || 0) + 1) % imgs.length;
+  imgs.forEach((img, i) => img.style.display = i === slidesMap[id] ? 'block' : 'none');
+}
+function prevSlide(id) {
+  const car = document.getElementById('car-' + id);
+  if (!car) return;
+  const imgs = car.querySelectorAll('img');
+  slidesMap[id] = ((slidesMap[id] || 0) - 1 + imgs.length) % imgs.length;
+  imgs.forEach((img, i) => img.style.display = i === slidesMap[id] ? 'block' : 'none');
+}
 </script>
 </body>
 </html>
