@@ -5,13 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Grékos - Tienda Deportiva</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Segoe UI', Arial, sans-serif; background: #0f0f0f; color: #f0f0f0; }
+    @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Inter:wght@400;500;600&display=swap');
 
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --rojo: #e63312;
+      --negro: #0f0f0f;
+      --gris-oscuro: #1a1a1a;
+      --gris-medio: #2a2a2a;
+      --gris-claro: #f2f2f2;
+      --blanco: #ffffff;
+      --verde: #22c55e;
+      --amarillo: #f59e0b;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--negro);
+      color: var(--blanco);
+      min-height: 100vh;
+    }
+
+    /* HEADER */
     header {
-      background: #1a1a1a;
-      border-bottom: 2px solid #e63312;
-      padding: 18px 32px;
+      background: var(--negro);
+      border-bottom: 2px solid var(--rojo);
+      padding: 14px 32px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -19,262 +39,524 @@
       top: 0;
       z-index: 100;
     }
-    .logo { font-size: 28px; font-weight: 900; letter-spacing: -1px; }
-    .logo span { color: #e63312; }
-    .logo-sub { font-size: 12px; color: #888; margin-top: 2px; }
-    nav a {
-      color: #f0f0f0; text-decoration: none; margin-left: 28px;
-      font-size: 15px; font-weight: 500; cursor: pointer; transition: color 0.2s;
-    }
-    nav a:hover, nav a.active { color: #e63312; }
 
-    .section { display: none; }
-    .section.active { display: block; }
+    .logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: var(--blanco);
+    }
+
+    .logo span { color: var(--rojo); }
+
+    nav { display: flex; gap: 8px; }
+
+    nav a {
+      color: #aaa;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 8px 16px;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--blanco);
+      background: var(--gris-medio);
+    }
 
     /* HERO */
-    .hero {
-      background: linear-gradient(135deg, #1a1a1a 0%, #2a1a1a 100%);
-      text-align: center; padding: 80px 32px 60px;
-    }
-    .hero h1 { font-size: 52px; font-weight: 900; letter-spacing: -2px; text-transform: uppercase; }
-    .hero h1 span { color: #e63312; }
-    .hero p { color: #aaa; margin-top: 12px; font-size: 17px; }
-    .hero-btns { margin-top: 32px; display: flex; gap: 16px; justify-content: center; }
-    .btn-primary {
-      background: #e63312; color: #fff; border: none;
-      padding: 14px 32px; font-size: 16px; font-weight: 700;
-      border-radius: 4px; cursor: pointer; transition: background 0.2s;
-    }
-    .btn-primary:hover { background: #c22a0e; }
-    .btn-secondary {
-      background: transparent; color: #f0f0f0; border: 2px solid #444;
-      padding: 14px 32px; font-size: 16px; font-weight: 700;
-      border-radius: 4px; cursor: pointer; transition: border-color 0.2s;
-    }
-    .btn-secondary:hover { border-color: #e63312; }
-
-    /* CATEGORIAS HERO */
-    .cats-hero {
-      display: flex; justify-content: center; gap: 12px;
-      flex-wrap: wrap; padding: 32px;
-      background: #111;
-    }
-    .cat-hero-btn {
-      padding: 10px 22px; border-radius: 24px;
-      border: 2px solid #333; background: transparent;
-      color: #ccc; font-size: 14px; font-weight: 600;
-      cursor: pointer; transition: all 0.2s;
-    }
-    .cat-hero-btn:hover, .cat-hero-btn.active {
-      border-color: #e63312; color: #fff; background: #e63312;
+    #inicio {
+      background: linear-gradient(135deg, var(--negro) 0%, #1a0a0a 50%, #2a0a0a 100%);
+      padding: 80px 32px;
+      text-align: center;
+      border-bottom: 1px solid #333;
     }
 
-    /* PRODUCTOS */
-    .products-header {
-      padding: 32px 32px 16px;
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
+    #inicio h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 0.9;
+      letter-spacing: -1px;
     }
-    .products-header h2 { font-size: 24px; font-weight: 800; }
-    .search-bar {
-      padding: 10px 18px; background: #1a1a1a; border: 1px solid #333;
-      border-radius: 6px; color: #f0f0f0; font-size: 15px; width: 260px; outline: none;
-    }
-    .search-bar:focus { border-color: #e63312; }
 
-    .products-grid {
+    #inicio h1 span { color: var(--rojo); }
+
+    #inicio p {
+      color: #888;
+      font-size: 1rem;
+      margin-top: 16px;
+      max-width: 480px;
+      margin-inline: auto;
+    }
+
+    .btn-hero {
+      display: inline-block;
+      margin-top: 28px;
+      background: var(--rojo);
+      color: var(--blanco);
+      padding: 14px 36px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      cursor: pointer;
+      border: none;
+      transition: background 0.2s;
+    }
+
+    .btn-hero:hover { background: #c0270f; }
+
+    /* SECCIÓN PRODUCTOS */
+    #productos {
+      padding: 48px 32px;
+    }
+
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 24px;
+      border-left: 4px solid var(--rojo);
+      padding-left: 16px;
+    }
+
+    /* FILTROS */
+    .filtros {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+
+    .filtro-btn {
+      background: var(--gris-medio);
+      color: #aaa;
+      border: 1px solid #333;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filtro-btn:hover {
+      border-color: var(--rojo);
+      color: var(--blanco);
+    }
+
+    .filtro-btn.activo {
+      background: var(--rojo);
+      color: var(--blanco);
+      border-color: var(--rojo);
+    }
+
+    /* GRID DE PRODUCTOS */
+    .productos-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 20px; padding: 0 32px 60px;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
     }
-    .product-card {
-      background: #1a1a1a; border-radius: 10px; overflow: hidden;
-      border: 1px solid #2a2a2a; transition: transform 0.2s, border-color 0.2s;
-    }
-    .product-card:hover { transform: translateY(-4px); border-color: #e63312; }
-    .product-img { width: 100%; height: 200px; object-fit: cover; background: #2a2a2a; }
-    .product-img-placeholder {
-      width: 100%; height: 200px; background: #2a2a2a;
-      display: flex; align-items: center; justify-content: center;
-      color: #555; font-size: 40px;
-    }
-    .product-info { padding: 16px; }
-    .product-cat {
-      font-size: 11px; color: #e63312; text-transform: uppercase;
-      letter-spacing: 1px; font-weight: 700; margin-bottom: 4px;
-    }
-    .product-name { font-weight: 700; font-size: 15px; margin-bottom: 6px; }
-    .product-price { color: #e63312; font-size: 20px; font-weight: 800; margin-bottom: 10px; }
-    .product-desc { color: #999; font-size: 13px; margin-bottom: 12px; line-height: 1.5; }
-    .stock-label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
-    .stock-badges { display: flex; flex-wrap: wrap; gap: 6px; }
-    .badge { padding: 3px 9px; border-radius: 12px; font-size: 12px; font-weight: 600; }
-    .badge-ok { background: #1a3a1a; color: #4caf50; }
-    .badge-low { background: #3a2a00; color: #ff9800; }
-    .badge-out { background: #2a1a1a; color: #f44336; }
-    .loading { text-align: center; padding: 80px; color: #666; font-size: 18px; }
 
-    /* TIENDAS */
-    .stores-section { padding: 40px 32px 60px; }
-    .stores-section h2 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
-    .stores-section p { color: #888; margin-bottom: 32px; }
-    .stores-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-    .store-card {
-      background: #1a1a1a; border: 1px solid #2a2a2a;
-      border-radius: 10px; padding: 28px 24px; text-align: center; transition: border-color 0.2s;
+    .producto-card {
+      background: var(--gris-oscuro);
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
     }
-    .store-card:hover { border-color: #e63312; }
-    .store-icon { font-size: 40px; margin-bottom: 12px; }
-    .store-name { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
-    .store-info { color: #888; font-size: 14px; }
+
+    .producto-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--rojo);
+    }
+
+    .producto-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      background: var(--gris-medio);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+
+    .producto-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .producto-body { padding: 16px; }
+
+    .producto-categoria {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--rojo);
+      margin-bottom: 6px;
+    }
+
+    .producto-nombre {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .producto-descripcion {
+      font-size: 0.8rem;
+      color: #888;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .producto-precio {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--blanco);
+      margin-bottom: 12px;
+    }
+
+    .producto-precio span {
+      font-size: 1rem;
+      color: #888;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+    }
+
+    /* STOCK POR TIENDA */
+    .stock-tiendas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #333;
+    }
+
+    .stock-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+    }
+
+    .stock-ciudad { color: #888; }
+
+    .stock-num {
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    .stock-ok { background: #14532d; color: var(--verde); }
+    .stock-poco { background: #451a03; color: var(--amarillo); }
+    .stock-cero { background: #450a0a; color: #f87171; }
+
+    /* LOADING / EMPTY */
+    .loading, .empty {
+      text-align: center;
+      padding: 60px;
+      color: #555;
+      font-size: 1rem;
+    }
+
+    .loading::after {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      border: 3px solid #333;
+      border-top-color: var(--rojo);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-left: 10px;
+      vertical-align: middle;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* SECCIÓN TIENDAS */
+    #tiendas {
+      padding: 48px 32px;
+      background: var(--gris-oscuro);
+      border-top: 1px solid #2a2a2a;
+    }
+
+    .tiendas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    .tienda-card {
+      background: var(--negro);
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 24px;
+      border-top: 3px solid var(--rojo);
+    }
+
+    .tienda-card h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .tienda-card p {
+      font-size: 0.82rem;
+      color: #777;
+      line-height: 1.5;
+    }
+
+    .tienda-foto {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 14px;
+    }
+
+    .tienda-direccion {
+      font-size: 0.78rem;
+      color: var(--rojo);
+      margin-top: 6px;
+      font-weight: 600;
+    }
+
+    .tienda-foto {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 14px;
+    }
+
+    .tienda-direccion {
+      font-size: 0.78rem;
+      color: var(--rojo);
+      margin-top: 6px;
+      font-weight: 600;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 28px;
+      font-size: 0.78rem;
+      color: #444;
+      border-top: 1px solid #1f1f1f;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      header { padding: 12px 16px; }
+      nav a { padding: 6px 10px; font-size: 0.75rem; }
+      #productos, #tiendas { padding: 32px 16px; }
+      #inicio { padding: 60px 16px; }
+    }
   </style>
 </head>
 <body>
 
 <header>
-  <div>
-    <div class="logo">GRÉ<span>KOS</span></div>
-    <div class="logo-sub">Artículos deportivos</div>
-  </div>
+  <div class="logo">GRÉ<span>KOS</span></div>
   <nav>
-    <a onclick="showSection('inicio')" id="nav-inicio" class="active">Inicio</a>
-    <a onclick="showSection('productos')" id="nav-productos">Productos</a>
-    <a onclick="showSection('tiendas')" id="nav-tiendas">Tiendas</a>
+    <a href="#inicio" class="active" onclick="setActive(this)">Inicio</a>
+    <a href="#productos" onclick="setActive(this)">Productos</a>
+    <a href="#tiendas" onclick="setActive(this)">Tiendas</a>
   </nav>
 </header>
 
 <!-- INICIO -->
-<div id="inicio" class="section active">
-  <div class="hero">
-    <h1>Tu Tienda <span>Deportiva</span></h1>
-    <p>Suplementos, ropa y equipamiento para tu mejor rendimiento</p>
-    <div class="hero-btns">
-      <button class="btn-primary" onclick="showSection('productos')">Ver Productos</button>
-      <button class="btn-secondary" onclick="showSection('tiendas')">Nuestras Tiendas</button>
-    </div>
-  </div>
-  <div class="cats-hero">
-    <button class="cat-hero-btn" onclick="goToCategory('Suplementos')">💊 Suplementos</button>
-    <button class="cat-hero-btn" onclick="goToCategory('Ropa')">👕 Ropa</button>
-    <button class="cat-hero-btn" onclick="goToCategory('Artículos')">🏋️ Artículos</button>
-    <button class="cat-hero-btn" onclick="goToCategory('Máquinas')">⚙️ Máquinas</button>
-    <button class="cat-hero-btn" onclick="goToCategory('Zapatillas')">👟 Zapatillas</button>
-  </div>
-</div>
+<section id="inicio">
+  <h1>EQUÍPATE<br>PARA <span>GANAR</span></h1>
+  <p>Suplementos, ropa, máquinas y accesorios deportivos en 4 tiendas en el sur del Perú.</p>
+  <button class="btn-hero" onclick="document.getElementById('productos').scrollIntoView({behavior:'smooth'})">
+    Ver productos
+  </button>
+</section>
 
 <!-- PRODUCTOS -->
-<div id="productos" class="section">
-  <div class="products-header">
-    <h2 id="products-title">Todos los productos</h2>
-    <input class="search-bar" id="search" type="text" placeholder="Buscar producto..." oninput="filterProducts()">
+<section id="productos">
+  <h2 class="section-title">Productos</h2>
+
+  <div class="filtros">
+    <button class="filtro-btn activo" onclick="filtrar('Todos', this)">Todos</button>
+    <button class="filtro-btn" onclick="filtrar('Suplementos', this)">Suplementos</button>
+    <button class="filtro-btn" onclick="filtrar('Ropa', this)">Ropa</button>
+    <button class="filtro-btn" onclick="filtrar('Artículos', this)">Artículos</button>
+    <button class="filtro-btn" onclick="filtrar('Máquinas', this)">Máquinas</button>
+    <button class="filtro-btn" onclick="filtrar('Zapatillas', this)">Zapatillas</button>
   </div>
-  <div style="padding: 0 32px 16px; display:flex; gap:10px; flex-wrap:wrap;">
-    <button class="cat-hero-btn active" id="cat-all" onclick="setCat('')">Todos</button>
-    <button class="cat-hero-btn" id="cat-Suplementos" onclick="setCat('Suplementos')">💊 Suplementos</button>
-    <button class="cat-hero-btn" id="cat-Ropa" onclick="setCat('Ropa')">👕 Ropa</button>
-    <button class="cat-hero-btn" id="cat-Artículos" onclick="setCat('Artículos')">🏋️ Artículos</button>
-    <button class="cat-hero-btn" id="cat-Máquinas" onclick="setCat('Máquinas')">⚙️ Máquinas</button>
-    <button class="cat-hero-btn" id="cat-Zapatillas" onclick="setCat('Zapatillas')">👟 Zapatillas</button>
+
+  <div class="productos-grid" id="grid">
+    <div class="loading">Cargando productos</div>
   </div>
-  <div id="products-grid" class="products-grid">
-    <div class="loading">Cargando productos...</div>
-  </div>
-</div>
+</section>
 
 <!-- TIENDAS -->
-<div id="tiendas" class="section">
-  <div class="stores-section">
-    <h2>Nuestras Tiendas</h2>
-    <p>Encuéntranos en 4 ciudades del Perú</p>
-    <div class="stores-grid">
-      <div class="store-card"><div class="store-icon">📍</div><div class="store-name">Ica</div><div class="store-info">Sede principal</div></div>
-      <div class="store-card"><div class="store-icon">📍</div><div class="store-name">Chincha</div><div class="store-info">Chincha Alta</div></div>
-      <div class="store-card"><div class="store-icon">📍</div><div class="store-name">Nasca</div><div class="store-info">Nasca Centro</div></div>
-      <div class="store-card"><div class="store-icon">📍</div><div class="store-name">Arequipa</div><div class="store-info">Arequipa Centro</div></div>
+<section id="tiendas">
+  <h2 class="section-title">Nuestras Tiendas</h2>
+  <div class="tiendas-grid">
+    <div class="tienda-card">
+      <img class="tienda-foto" src="4.png" alt="Tienda Ica">
+      <h3>🏪 Ica</h3>
+      <p>Suplementos, ropa y equipos disponibles.</p>
+      <div class="tienda-direccion">📍 Calle Camaná 315</div>
+    </div>
+    <div class="tienda-card">
+      <img class="tienda-foto" src="3.png" alt="Tienda Chincha">
+      <h3>🏪 Chincha</h3>
+      <p>Accesorios, ropa deportiva y suplementos.</p>
+      <div class="tienda-direccion">📍 Calle Grau 494</div>
+    </div>
+    <div class="tienda-card">
+      <img class="tienda-foto" src="2.png" alt="Tienda Nasca">
+      <h3>🏪 Nasca</h3>
+      <p>Equipos de entrenamiento y suplementación.</p>
+      <div class="tienda-direccion">📍 Calle Arica 480</div>
+    </div>
+    <div class="tienda-card">
+      <img class="tienda-foto" src="5.png" alt="Tienda Arequipa">
+      <h3>🏪 Arequipa</h3>
+      <p>Sede sur. Máquinas, ropa y zapatillas deportivas.</p>
+      <div class="tienda-direccion">📍 Calle Palacio Viejo 204</div>
     </div>
   </div>
-</div>
+</section>
+
+<footer>
+  © 2025 Grékos · Artículos Deportivos · Ica, Chincha, Nasca, Arequipa
+</footer>
 
 <script>
-  const API_KEY = 'patdW4KoAcThSrskf.26be9af05981dd583b06f82133ea8d7b14a68c000d3345b607db6dee2d717523';
+  const TOKEN = 'patdW4KoAcThSrskf.26be9af05981dd583b06f82133ea8d7b14a68c000d3345b607db6dee2d717523';
   const BASE_ID = 'appOLjwDk4hhdE7LW';
   const TABLE = 'Stock';
 
-  let allProducts = [];
-  let currentCat = '';
+  let todosLosProductos = [];
+  let categoriaActual = 'Todos';
 
-  function showSection(name) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  function setActive(el) {
     document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-    document.getElementById(name).classList.add('active');
-    document.getElementById('nav-' + name).classList.add('active');
-    if (name === 'productos' && allProducts.length === 0) loadProducts();
+    el.classList.add('active');
   }
 
-  function goToCategory(cat) {
-    showSection('productos');
-    setCat(cat);
+  function stockClass(n) {
+    if (n <= 0) return 'stock-cero';
+    if (n <= 3) return 'stock-poco';
+    return 'stock-ok';
   }
 
-  function setCat(cat) {
-    currentCat = cat;
-    document.querySelectorAll('.cat-hero-btn[id^="cat-"]').forEach(b => b.classList.remove('active'));
-    const btn = cat ? document.getElementById('cat-' + cat) : document.getElementById('cat-all');
-    if (btn) btn.classList.add('active');
-    document.getElementById('products-title').textContent = cat || 'Todos los productos';
-    filterProducts();
+  function renderProductos(lista) {
+    const grid = document.getElementById('grid');
+    if (!lista.length) {
+      grid.innerHTML = '<div class="empty">No hay productos en esta categoría.</div>';
+      return;
+    }
+
+    grid.innerHTML = lista.map(p => {
+      const f = p.fields;
+      const nombre    = f['Producto'] || 'Sin nombre';
+      const precio    = f['Precio'] ? `S/ ${parseFloat(f['Precio']).toFixed(2)}` : 'Consultar';
+      const desc      = f['Descripción'] || f['Descripcion'] || '';
+      const categoria = f['Categoría'] || f['Categoria'] || '';
+      const foto      = f['Foto'] && f['Foto'][0] ? f['Foto'][0].url : null;
+      const ica       = parseInt(f['Ica'] || 0);
+      const chincha   = parseInt(f['Chincha'] || 0);
+      const nasca     = parseInt(f['Nasca'] || 0);
+      const arequipa  = parseInt(f['Arequipa'] || 0);
+
+      const imgHTML = foto
+        ? `<div class="producto-img"><img src="${foto}" alt="${nombre}" loading="lazy"></div>`
+        : `<div class="producto-img">🏋️</div>`;
+
+      return `
+        <div class="producto-card" data-categoria="${categoria}">
+          ${imgHTML}
+          <div class="producto-body">
+            ${categoria ? `<div class="producto-categoria">${categoria}</div>` : ''}
+            <div class="producto-nombre">${nombre}</div>
+            ${desc ? `<div class="producto-descripcion">${desc}</div>` : ''}
+            <div class="producto-precio">${precio} <span>soles</span></div>
+            <div class="stock-tiendas">
+              <div class="stock-item">
+                <span class="stock-ciudad">Ica</span>
+                <span class="stock-num ${stockClass(ica)}">${ica}</span>
+              </div>
+              <div class="stock-item">
+                <span class="stock-ciudad">Chincha</span>
+                <span class="stock-num ${stockClass(chincha)}">${chincha}</span>
+              </div>
+              <div class="stock-item">
+                <span class="stock-ciudad">Nasca</span>
+                <span class="stock-num ${stockClass(nasca)}">${nasca}</span>
+              </div>
+              <div class="stock-item">
+                <span class="stock-ciudad">Arequipa</span>
+                <span class="stock-num ${stockClass(arequipa)}">${arequipa}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
   }
 
-  async function loadProducts() {
+  function filtrar(categoria, btn) {
+    categoriaActual = categoria;
+    document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('activo'));
+    btn.classList.add('activo');
+
+    const filtrados = categoria === 'Todos'
+      ? todosLosProductos
+      : todosLosProductos.filter(p => {
+          const cat = p.fields['Categoría'] || p.fields['Categoria'] || '';
+          return cat === categoria;
+        });
+
+    renderProductos(filtrados);
+  }
+
+  async function cargarProductos() {
     try {
-      const res = await fetch(`https://api.airtable.com/v0/${BASE_ID}/${TABLE}`, {
-        headers: { Authorization: `Bearer ${API_KEY}` }
+      const url = `https://api.airtable.com/v0/${BASE_ID}/${encodeURIComponent(TABLE)}`;
+      const res = await fetch(url, {
+        headers: { 'Authorization': `Bearer ${TOKEN}` }
       });
       const data = await res.json();
-      allProducts = data.records;
-      filterProducts();
-    } catch (e) {
-      document.getElementById('products-grid').innerHTML = '<div class="loading">Error al cargar productos.</div>';
+      if (!res.ok) throw new Error(data.error?.message || 'Error Airtable');
+      todosLosProductos = data.records;
+      renderProductos(todosLosProductos);
+    } catch (err) {
+      document.getElementById('grid').innerHTML =
+        `<div class="empty">Error al cargar productos: ${err.message}</div>`;
     }
   }
 
-  function filterProducts() {
-    const q = document.getElementById('search').value.toLowerCase();
-    let filtered = allProducts.filter(r => (r.fields.Producto || '').toLowerCase().includes(q));
-    if (currentCat) filtered = filtered.filter(r => r.fields['Categoría'] === currentCat);
-    renderProducts(filtered);
-  }
-
-  function renderProducts(records) {
-    const grid = document.getElementById('products-grid');
-    if (!records.length) { grid.innerHTML = '<div class="loading">No se encontraron productos.</div>'; return; }
-    grid.innerHTML = records.map(r => {
-      const f = r.fields;
-      const tiendas = ['Ica','Chincha','Nasca','Arequipa'];
-      const badges = tiendas.map(t => {
-        const qty = f[t] || 0;
-        const cls = qty > 3 ? 'badge-ok' : qty > 0 ? 'badge-low' : 'badge-out';
-        return `<span class="badge ${cls}">${t} (${qty})</span>`;
-      }).join('');
-      const imgHTML = (f.Foto && f.Foto[0])
-        ? `<img class="product-img" src="${f.Foto[0].url}" alt="${f.Producto || ''}">`
-        : `<div class="product-img-placeholder">🏋️</div>`;
-      const precio = f.Precio ? `S/ ${parseFloat(f.Precio).toFixed(2)}` : 'Consultar';
-      const desc = f.Descripción || f.Descripcion || '';
-      const cat = f['Categoría'] || '';
-      return `
-        <div class="product-card">
-          ${imgHTML}
-          <div class="product-info">
-            ${cat ? `<div class="product-cat">${cat}</div>` : ''}
-            <div class="product-name">${f.Producto || 'Producto'}</div>
-            <div class="product-price">${precio}</div>
-            ${desc ? `<div class="product-desc">${desc}</div>` : ''}
-            <div class="stock-label">Disponible en</div>
-            <div class="stock-badges">${badges}</div>
-          </div>
-        </div>`;
-    }).join('');
-  }
+  cargarProductos();
 </script>
 </body>
 </html>
